@@ -1,14 +1,14 @@
 ## Openhouse
-Openhouse bundles together data on the number of dwellings and people in cities and countries around the world. The initial dataset was compiled by hand by [James Gleeson](https://github.com/jgleeson), Housing Research and Analysis Manager at the Greater London Authority. 
+Openhouse bundles together data on the number of dwellings and people in cities and countries around the world. The initial dataset was compiled by [James Gleeson](https://github.com/jgleeson), Housing Research and Analysis Manager at the Greater London Authority. 
 
 ### What's this for?
-Openhouse has a very simple purpose - to facilitate international comparisons on trends in housing stock, including in comparison to trends in population. While many countries and cities publish data on their population and housing stock, thus far this has not been brought together in a comprehensive manner. One partial exception is the OECD affordable housing database, but that covers only a limited number of country/year pairings and does not go down to city level. 
+Openhouse has a very simple purpose - to facilitate international comparisons on trends in housing stock, including in comparison to trends in population. While many countries and cities publish data on their population and housing stock, thus far this has not been brought together in a comprehensive manner. One partial exception is the [OECD affordable housing database](https://www.oecd.org/housing/data/affordable-housing-database/housing-market.htm), but that covers only a limited number of country/year pairings and does not go down to city level (although it does also include several other variables that are not included here). 
 
 ### What years does the data cover?
 Openhouse aims to include the latest available data, and an annual time series extending as far back as data on dwellings is available (in many cases data on population is available further back, but that is not included here). Where annual data is not available, we use the next best thing (for example, decadal Census data). 
 
 ### What countries and cities are included?
-The coverage of the dataset reflects an opportunistic approach to data gathering, which started with countries and cities that were considered internationally prominent and that made their data easily available in English (or in another language the project creator could understand), and then continued to add places on the basis of availability. A number of major countries are not covered due to a lack of comparable data: for example, China, Russia and most developing countries (where the presence of substantial amounts of informal housing makes the formal dwelling count less meaningful).
+The coverage of the dataset reflects an opportunistic approach to data gathering, which started with countries and cities that were considered internationally prominent and that made their data easily available in English (or in another language the project creator could understand), and then continued to add places on the basis of availability. A number of major countries are not covered due to a lack of comparable data: for example, China, Russia and developing countries (where the presence of substantial amounts of informal housing makes the formal dwelling count less meaningful).
 
 In most countries just one city is included, either the capital or the largest city. One notable exception is Spain, where both Madrid and Barcelona are included.
 
