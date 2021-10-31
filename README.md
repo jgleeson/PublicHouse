@@ -12,9 +12,6 @@ The coverage of the dataset reflects an opportunistic approach to data gathering
 
 In most countries just one city is included, either the capital or the largest city. One notable exception is Spain, where both Madrid and Barcelona are included.
 
-### What are the limitations of the data?
-Many! Looking at the housing side of the dataset, because we only collect the number of the dwellings we leave out important variables like dwelling size, type, condition, cost, occupancy and tenure. These are all important but they are also all difficult to compare across (and often within) national borders. The number of dwellings doesn't tell you everything you need to know about housing in a particular place, or anything close to it, but it tells you some things that are worth knowing. It's a starting point.
-
 ### What details are included in the dataset?
 To ensure transparency and to credit the creators of the data, the dataset includes a number of descriptive variables, as follows:
 
@@ -37,6 +34,14 @@ To ensure transparency and to credit the creators of the data, the dataset inclu
 | frequency | Annual or multi-annual frequency (specified if regular intervals) |
 | source_link | URL of the data source |
 | notes | Miscellaneous notes on data definitions etc |
+
+### How does this differ from other international datasets on housing supply?
+As mentioned above, this dataset differs from the [OECD affordable housing database](https://www.oecd.org/housing/data/affordable-housing-database/housing-market.htm) as  that covers only a limited number of country/year pairings and does not go down to city level (although it does also include several other variables that are not included here). 
+
+The other most comparable resource is [Sebastian Kohl's dataset](https://www.sebastiankohl.com/data) of annual housing construction over decades and across dozens of countries. His remarkable dataset has wider coverage in both space and time than Openhouse, because data on new construction is more widely reported and readily available than data on the housing stock. Another benefit of Sebastian's data is that it identifies the flow of *new* homes, whereas changes in the housing stock can be due to changes in the amount of demolition, the splitting of existing homes into a greater number of smaller homes, and other trends. The two datasets should be considered complementary, and there may be value in combining them for some analyses.  
+
+### What are the limitations of the data?
+Many! Looking at the housing side of the dataset, because we only collect the number of the dwellings we leave out important variables like dwelling size, type, condition, cost, occupancy and tenure. These are all important but they are also all difficult to compare across (and often within) national borders. The number of dwellings doesn't tell you everything you need to know about housing in a particular place, or anything close to it, but it tells you some things that are worth knowing. It's a starting point.
 
 ### Acknowledgements
 This project would obviously have been impossible without the work of the many national and city statistical agencies that compiled the original data and made it available. Thanks also to [Jens von Bergmann](https://github.com/mountainMath) for advice on the Canadian data.
