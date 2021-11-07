@@ -92,11 +92,11 @@ static <- d %>%
 static
 ```
 
-![](Analysis_files/figure-gfm/dwellngs%20per%20person-1.png)<!-- -->
+![](Analysis_files/figure-gfm/dwellings%20per%20person-1.png)<!-- -->
 That’s a bit busy so let’s see if we can do a plotly version
 
 ``` r
 dynamic <- ggplotly(static)
 ```
 
-<iframe src="/index.html" width="100%" height="600" scrolling="no" seamless="seamless" frameBorder="0"></iframe>
+<iframe src="index.html" width="100%" height="600" scrolling="no" seamless="seamless" frameBorder="0"></iframe>
