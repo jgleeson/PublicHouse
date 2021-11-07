@@ -99,4 +99,4 @@ That’s a bit busy so let’s see if we can do a plotly version
 dynamic <- ggplotly(static)
 ```
 
-<iframe src="C:/Users/jgleeson/OneDrive - Greater London Authority/Analysis/countinghouses/index.html" width="100%" height="600" scrolling="no" seamless="seamless" frameBorder="0"></iframe>
+<iframe src="https://raw.githubusercontent.com/jgleeson/openhouse/main/index.html" width="100%" height="600" scrolling="no" seamless="seamless" frameBorder="0"></iframe>
