@@ -22,7 +22,7 @@ for styling.
 library(tidyverse)
 library(ggthemes)
 library(lubridate)
-library(ggiraph)
+library(plotly)
 ```
 
 Another bit of setup is to set the chart theme to use.
@@ -75,8 +75,8 @@ d %>%
 ## Dwellings per person
 
 ``` r
-d %>%
-  pivot_wider(id_cols = c(area_name, year, area_level),
+static <- d %>%
+  pivot_wider(id_cols = c(area_name, year, area_level, grouping),
               names_from = variable,
               values_from = value) %>%
   mutate(dpp = dwellings/population) %>%
@@ -84,36 +84,19 @@ d %>%
   filter(!is.na(dpp)) %>%
   filter(area_level != "city-region") %>% 
   ggplot(aes(x = year, y = dpp, group = area_name, colour = area_name)) +
-  geom_point() +
+#  geom_point() +
   geom_line() +
   labs(x = NULL, y = NULL, title = "Dwellings per person by country") +
+  facet_wrap(~grouping) +
   theme()
+static
 ```
 
 ![](Analysis_files/figure-gfm/dwellngs%20per%20person-1.png)<!-- -->
-
-That’s a bit busy so let’s use interactivity to allow the chart to be
-more easily read. This is courtesy of the [ggiraph
-package](https://davidgohel.github.io/ggiraph/).
+That’s a bit busy so let’s see if we can do a plotly version
 
 ``` r
-p <- d %>%
-  pivot_wider(id_cols = c(area_name, year, area_level),
-              names_from = variable,
-              values_from = value) %>%
-  mutate(dpp = dwellings/population) %>%
-  arrange(area_name, year) %>%
-  filter(!is.na(dpp)) %>%
-  filter(area_level != "city-region") %>% 
-  ggplot(aes(x = year, y = dpp, group = area_name, colour = area_name,
-             tooltip = area_name, data_id = area_name)) +
-  geom_line_interactive() +  
-  geom_point() +
-  labs(x = NULL, y = NULL, title = "Dwellings per person by country") +
-  theme()
-
-girafe(p)
+dynamic <- ggplotly(static)
 ```
 
-<div id="htmlwidget-a580aefd6b720a0cddd7" style="width:672px;height:480px;" class="girafe html-widget"></div>
-<script type="application/json" data-for="htmlwidget-a580aefd6b720a0cddd7">{"x":{"html":"","js":null,"uid":"svg_139276aa-cd8d-4710-b468-cc4dcb56eb73","ratio":1.2,"settings":{"tooltip":{"css":".tooltip_SVGID_ { padding:5px;background:black;color:white;border-radius:2px 2px 2px 2px;text-align:left; ; position:absolute;pointer-events:none;z-index:999;}\n","placement":"doc","offx":10,"offy":0,"use_cursor_pos":true,"opacity":0.9,"usefill":false,"usestroke":false,"delay":{"over":200,"out":500}},"hover":{"css":".hover_SVGID_ { fill:orange;stroke:gray; }","reactive":false},"hoverkey":{"css":".hover_key_SVGID_ { stroke:red; }","reactive":false},"hovertheme":{"css":".hover_theme_SVGID_ { fill:green; }","reactive":false},"hoverinv":{"css":""},"zoom":{"min":1,"max":1},"capture":{"css":".selected_SVGID_ { fill:red;stroke:gray; }","type":"multiple","only_shiny":true,"selected":[]},"capturekey":{"css":".selected_key_SVGID_ { stroke:gray; }","type":"single","only_shiny":true,"selected":[]},"capturetheme":{"css":".selected_theme_SVGID_ { stroke:gray; }","type":"single","only_shiny":true,"selected":[]},"toolbar":{"position":"topright","saveaspng":true,"pngname":"diagram"},"sizing":{"rescale":true,"width":1}}},"evals":[],"jsHooks":[]}</script>
+<iframe src="C:/Users/jgleeson/OneDrive - Greater London Authority/Analysis/countinghouses/index.html" width="100%" height="600" scrolling="no" seamless="seamless" frameBorder="0"></iframe>
