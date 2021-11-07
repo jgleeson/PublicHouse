@@ -99,5 +99,6 @@ That’s a bit busy so let’s see if we can do a plotly version
 ``` r
 dynamic <- ggplotly(static)
 ```
-
+<div>
 <iframe src="index.html" width="100%" height="600" scrolling="no" seamless="seamless" frameBorder="0"></iframe>
+</div>
