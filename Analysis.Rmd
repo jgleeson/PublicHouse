@@ -111,7 +111,7 @@ d %>%
 
 A couple of patterns stand out here. First, there is a lot of variation in both the level of dwellings per person and the rate of growth over time. Second, in many countries there is a flattening of the curve in roughtly the second half of the period (since 2000), Spain and Ireland being quite extreme examples. Third, East Asian and Southern European countries have generally seen bigger increases over time, while Anglophone countries haven't seen much increase at all since 2000.
 
-Next is the trend over time for cities. There are two things to note: first, that the level of dwellings per person is generally higher in cities than for countries, even though dwellings and households are typically smaller in urban areas. The second is that the slope of the lines for cities are more often horizontal or downwards, reflecting the resurgence in population growth in many cities and the failure to increase urban housing stocks fast enough.
+Next is the trend over time for cities. The slope of the lines for cities are more often horizontal or downwards, reflecting the resurgence in population growth in many cities and the failure to increase urban housing stocks fast enough.
 
 ```{r dwellings per person trend by city, fig.height = 7, fig.width=9}
 d %>%
@@ -135,7 +135,6 @@ d %>%
         strip.background = element_rect(colour = "grey80", fill = "grey80"),
         panel.border = element_rect(colour = "grey80", fill = NA),
         panel.spacing.x = unit(15, units = "pt"))
-
 ```
 
 ```{r dpp latest year, fig.height= 4.5, fig.width=5, include = F}
@@ -442,4 +441,4 @@ d %>%
 
 
 ```
-There is lots more that can be done with this dataset, and I encourage you to try your own analysis. Hopefully the coverage will also expand over time - on which point, please see the [README](https://github.com/jgleeson/PublicHouse/blob/main/README.md) for details of how to contribute.
+There is lots more that can be done with this dataset, and I encourage you to try your own analysis. Hopefully the coverage will also expand over time - on which point, please see the README file for details of how to contribute.

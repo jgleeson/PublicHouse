@@ -147,13 +147,10 @@ being quite extreme examples. Third, East Asian and Southern European
 countries have generally seen bigger increases over time, while
 Anglophone countries haven’t seen much increase at all since 2000.
 
-Next is the trend over time for cities. There are two things to note:
-first, that the level of dwellings per person is generally higher in
-cities than for countries, even though dwellings and households are
-typically smaller in urban areas. The second is that the slope of the
-lines for cities are more often horizontal or downwards, reflecting the
-resurgence in population growth in many cities and the failure to
-increase urban housing stocks fast enough.
+Next is the trend over time for cities. The slope of the lines for
+cities are more often horizontal or downwards, reflecting the resurgence
+in population growth in many cities and the failure to increase urban
+housing stocks fast enough.
 
 ``` r
 d %>%
@@ -550,6 +547,5 @@ d %>%
 <img src="Analysis_files/figure-gfm/summary net additions chart with England focus-1.png" width="576" />
 There is lots more that can be done with this dataset, and I encourage
 you to try your own analysis. Hopefully the coverage will also expand
-over time - on which point, please see the
-[README](https://github.com/jgleeson/PublicHouse/blob/main/README.md)
-for details of how to contribute.
+over time - on which point, please see the README file for details of
+how to contribute.
