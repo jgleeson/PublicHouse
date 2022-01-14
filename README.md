@@ -49,5 +49,8 @@ Contributions are very welcome, particularly where they expand the coverage of t
 * Reliable (ideally published by an official statistics agency) 
 * Publicly available online
 
+### Attribution
+All the data in this collection was originally collected and published by the agencies cited on each row, so you should cite them as the source. But if you have come across this data through PublicHouse, then acknowledging that would also be welcome.
+
 ### Acknowledgements
 This project would obviously have been impossible without the work of the many national and city statistical agencies that compiled the original data and made it available. Thanks also to [Jens von Bergmann](https://github.com/mountainMath) for advice on the Canadian data.
