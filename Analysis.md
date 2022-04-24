@@ -26,8 +26,6 @@ library(khroma) # for the Okabe-Ito colour scale
 library(ggbraid) # for the 'braid' geom
 library(lubridate) # for working with dates
 library(zoo) # for time series interpolation
-library(gt) # for making tables
-library(gtExtras) # additional gt functions
 ```
 
 Another bit of setup is to set some chart design defaults.
