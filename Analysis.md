@@ -13,7 +13,7 @@ out some basic analysis using the R programming language. It also
 includes the code used to carry out the analysis, so you can re-create
 or adapt the charts.
 
-This is the second edition of this analysis note, published in April
+This is the second edition of this analysis note, published in May
 2022. The dataset has been expanded and updated, but in a more
 significant change the analysis uses interpolation to fill in gaps
 between data points, which improves some of the charts.
