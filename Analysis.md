@@ -1,6 +1,7 @@
-Analysing the PublicHouse dataset, v2
+Analysing the PublicHouse dataset, v3
 ================
 James Gleeson
+2022-09-18
 
 ## Introduction
 
@@ -13,10 +14,10 @@ out some basic analysis using the R programming language. It also
 includes the code used to carry out the analysis, so you can re-create
 or adapt the charts.
 
-This is the second edition of this analysis note, published in May
-2022. The dataset has been expanded and updated, but in a more
-significant change the analysis uses interpolation to fill in gaps
-between data points, which improves some of the charts.
+This is the second edition of this analysis note, published in May 2022.
+The dataset has been expanded and updated, but in a more significant
+change the analysis uses interpolation to fill in gaps between data
+points, which improves some of the charts.
 
 Let’s start by loading the R packages we’re going to use.
 
@@ -24,6 +25,8 @@ Let’s start by loading the R packages we’re going to use.
 library(tidyverse) # for various analysis functions
 library(khroma) # for the Okabe-Ito colour scale
 library(ggbraid) # for the 'braid' geom
+library(ggdensity) # for shaded probability areas on scatterplot diagrams
+library(geomtextpath) # for annotated line charts
 library(lubridate) # for working with dates
 library(zoo) # for time series interpolation
 ```
@@ -42,7 +45,7 @@ Now we load the dataset straight from Github.
 
 ``` r
 d <- read_csv("https://raw.githubusercontent.com/jgleeson/PublicHouse/main/dataset.csv") %>%
-  mutate(ref_date = dmy(ref_date))
+  mutate(ref_date = dmy(ref_date)) 
 ```
 
 As a first step, let’s see what places and years we have data for.
@@ -97,28 +100,52 @@ d %>%
 As you can see some data is annual while in other cases it is reported
 every X number of years. When the data is intermittent the population
 and dwelling reporting doesn’t always line up, so the next step
-interpolates the ‘missing’ data points between reporting years. I’ll use
-this interpolated dataset for some of the analysis that follows.
+interpolates the ‘missing’ data points between reporting years. We’ll
+use this interpolated dataset for some of the analysis that follows.
 
 ``` r
 d_interpolated <- d %>%
-  group_by(area_name, variable) %>%
+  group_by(area_name, variable) %>% 
   complete(variable, year = min(year):max(year)) %>%
   mutate(value = na.approx(value, na.rm = FALSE)) %>% 
   fill(full_area_name:grouping, source_org:source_title, frequency:notes) 
 ```
 
+## Dwellings and population in UK and France
+
+Here’s a simple example of the kind of comparison that can be made with
+this data, showing the trend in the population and the dwelling stock in
+the UK and France.
+
+``` r
+d %>%
+  filter(area_name %in% c("France", "UK")) %>%
+  mutate(variable = str_to_title(variable)) %>%
+  ggplot(aes(x = year, y = value, group = area_name, colour = area_name)) +
+  geom_line() +
+  scale_colour_okabeito() +
+  scale_y_continuous(labels = scales::comma,
+                     limits = c(0, NA)) +
+  labs(x = NULL, y = NULL, colour = NULL,
+       title = "Trend in population and number of dwellings in France and UK") +
+  facet_wrap(~variable, scales = "free")
+```
+
+<img src="Analysis_files/figure-gfm/dwellings and population in UK and France-1.png" width="672" />
+
 ## Dwellings per person
 
-A good place to start is by looking at how much housing there is to go
-around in each country or city. But it wouldn’t make much sense to just
-measure the number of dwellings, so instead we calculate a measure of
-dwellings per person (or dwellings per 1,000 people in the charts below,
-for presentation purposes). This measures the stock of housing, scaled
-to the population of the area. The inverse of dwellings per person is
-persons per dwelling, which is similar to the average household size -
-but household size is affected by vacancy, second homes and sharing so
-is harder to measure.
+That comparison broadly works for the UK and France because they have
+similar population sizes. But given the differences in the populations
+of all the countries we’re looking at, it doesn’t make much sense to
+just compare them by their absolute number of dwellings, so instead we
+calculate a measure of dwellings per person (or dwellings per 1,000
+people in the charts below, for presentation purposes). This measures
+the stock of housing, scaled to the population of the area. The inverse
+of dwellings per person is persons per dwelling, which is similar to the
+average household size - but household size is affected by things like
+vacancy rates, second homes, sharing and the non-household population so
+is harder to compare across countries.
 
 Is a higher rate of dwellings per person a good thing? Well, housing is
 a ‘normal’ good in the sense that people generally demand more of it as
@@ -161,7 +188,7 @@ d %>%
 A couple of patterns stand out here. First, there is a lot of variation
 in both the level of dwellings per person and the rate of growth over
 time. Second, in many countries there is a flattening of the curve in
-roughtly the second half of the period (since 2000), Spain and Ireland
+roughly the second half of the period (since 2000), Spain and Ireland
 being quite extreme examples. Third, East Asian and Southern European
 countries have generally seen bigger increases over time, while
 Anglophone countries haven’t seen much increase at all since 2000.
@@ -229,14 +256,19 @@ scatter_data %>%
     area_level != "city-region" ~ "bold",
     TRUE ~ "italic"
   )) %>%
-  ggplot(aes(x = dpp_change, y = dpp, colour = grouping)) +
-  geom_text(aes(label = area_name, fontface = face), size = 3) +
+  ggplot() +
+  geom_text(aes(x = dpp_change, y = dpp, colour = grouping,
+                label = area_name, fontface = face), size = 3) +
+  geom_hdr(aes(x = dpp_change, y = dpp, fill = grouping),
+               xlim = c(-0.08,0.20), ylim = c(250, 600),
+           probs = c(0.75)) +
   geom_hline(yintercept = dpp_average) +
   geom_vline(xintercept = 0) +
   scale_x_continuous(labels = scales::percent_format(accuracy = 1)) +
   scale_y_continuous(limits = c(NA, 650)) +
   labs(x = "% change in 10 years", y = "Dwellings per person, latest year", title = "Dwellings per 1,000 people and change over 10 years (where available)", caption = "City names in italics, countries in bold") +
   scale_colour_okabeito() +
+  scale_fill_okabeito() +
   theme(panel.grid.major.x = element_line(colour = "grey80"),
         panel.grid.major.y = element_line(colour = "grey90"),
         legend.position = "bottom",
@@ -281,7 +313,7 @@ d_interpolated %>%
   rename("Change in dwellings per 1,000 people" = dpp_change) %>%
   pivot_longer(-c(area_name, year, area_level, grouping), names_to = "variable", values_to = "value") %>%
   ungroup() %>%
-  ggplot(aes(x = area_name, y = value, fill = variable)) +
+  ggplot(aes(x = reorder(area_name, value), y = value, fill = variable)) +
   geom_col(data = . %>% filter(variable != "Change in dwellings per 1,000 people")) +
   geom_point(data = . %>% filter(variable == "Change in dwellings per 1,000 people"),
              shape = 21, size = 2) +
@@ -301,10 +333,10 @@ d_interpolated %>%
 
 At the country level, we can see that only three countries (Poland,
 Japan and Portugal) saw a fall in their populations over the decade,
-contributing to an increase in dwellings per person. And unsurprisingly,
-no countries saw a decrease in their housing stock. Population growth
-was highest in the Anglophone countries, which contrbuted to their low
-or negative growth in dwellings per person. East Asian countries had low
+contributing to an increase in dwellings per person. Unsurprisingly, no
+countries saw a decrease in their housing stock. Population growth was
+highest in the Anglophone countries, which contrbuted to their low or
+negative growth in dwellings per person. East Asian countries had low
 population growth but still added a significant number of new homes.
 
 ``` r
@@ -329,7 +361,7 @@ d_interpolated %>%
   rename("Change in dwellings per 1,000 people" = dpp_change) %>%
   pivot_longer(-c(area_name, year, area_level, grouping), names_to = "variable", values_to = "value") %>%
   ungroup() %>%
-  ggplot(aes(x = area_name, y = value, fill = variable)) +
+  ggplot(aes(x = reorder(area_name, value), y = value, fill = variable)) +
   geom_col(data = . %>% filter(variable != "Change in dwellings per 1,000 people")) +
   geom_point(data = . %>% filter(variable == "Change in dwellings per 1,000 people"),
              shape = 21, size = 2) +
@@ -383,7 +415,9 @@ d_interpolated %>%
   filter(year > 1979) %>%
   ggplot(aes(x = year, y = dpp, colour = grouping)) +
   geom_point(alpha = 0.1, size = 3) +
-  geom_smooth(se = F, span = 0.3) +
+#  geom_smooth(se = F, span = 0.3) +
+  geom_textsmooth(aes(x = year, y = dpp, colour = grouping, label = grouping), 
+                  se = F, span = 0.3, method = "loess", size = 4, linewidth = 1) +
   scale_colour_okabeito() +
   scale_x_continuous(breaks = c(1980, 2000, 2020)) +
   coord_cartesian(ylim = c(200, 650)) + 
@@ -393,7 +427,7 @@ d_interpolated %>%
         panel.grid.major.y = element_line(colour = "grey80"))
 ```
 
-<img src="Analysis_files/figure-gfm/aggregate dwellings per person trend by country-1.png" width="672" />
+<img src="Analysis_files/figure-gfm/aggregate dwellings per person trend by country grouping-1.png" width="672" />
 
 Finally, this chart shows an overall average trend for every country
 except England, and compares that to the England trend. Broadly
